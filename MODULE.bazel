@@ -4,3 +4,13 @@ p = use_extension("//:workspace_setup.bzl", "hedron_compile_commands_extension")
 pt = use_extension("//:workspace_setup_transitive.bzl", "hedron_compile_commands_extension")
 ptt = use_extension("//:workspace_setup_transitive_transitive.bzl", "hedron_compile_commands_extension")
 pttt = use_extension("//:workspace_setup_transitive_transitive_transitive.bzl", "hedron_compile_commands_extension")
+
+bazel_dep(
+  name = "com_github_rnburn_bazel_cpp20_modules",
+  version = "1.0.0",
+)
+git_override(
+  module_name = "com_github_rnburn_bazel_cpp20_modules",
+  remote = "https://github.com/rnburn/rules_cc_module",
+  commit = "4ddc298b0f233e481489d067a06fe969d5122d3e",
+)

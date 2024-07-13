@@ -27,8 +27,34 @@ filegroup(
 
 exports_files(["refresh.template.py", "check_python_version.template.py"])  # For implicit use by the refresh_compile_commands macro, not direct use.
 
-cc_binary(
+# fix for c++ 20 modules
+load("@com_github_rnburn_bazel_cpp20_modules//cc_module:defs.bzl", "cc_module", "cc_module_binary")
+
+cc_module(
+    name = "_Builtin_stddef_max_align_t",
+    is_system = True,
+)
+
+cc_module(
+    name = "std_config",
+    is_system = True,
+    deps = [
+        ":_Builtin_stddef_max_align_t",
+    ],
+)
+
+cc_module(
+    name = "std",
+    is_system = True,
+    deps = [
+        ":std_config",
+        ":_Builtin_stddef_max_align_t",
+    ],
+)
+
+cc_module_binary(
     name = "print_args",
     srcs = ["print_args.cpp"],
+    deps = [":std"],
     visibility = ["//visibility:public"],
 )
